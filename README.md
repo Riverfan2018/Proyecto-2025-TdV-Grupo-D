@@ -1,12 +1,12 @@
 # Nombre del juego
 
-## Equipo
-- <Nombre 1 y roles>
-- <Nombre 2 y roles>
-- <Nombre 3 y roles>
-- <Nombre 4 y roles>
-- <Nombre 5 y roles>
-- <Nombre 6 y roles>
+## Equipo D "Great CofCup
+- Pablo García Hernández, 1° GIC, Jefatura de proyecto, Programación, Diseño gráfico
+- David Salgado, 1º GISI, Diseño de niveles, Pruebas, Programación.
+- Roberto Pais Bustamante, 1ºGIC, Programación, Diseño de niveles y Pruebas.
+- Carmen Dávila Montero, 1º GII, Diseño Gráfico, Diseño de niveles.
+- Luka Luraschi 1ºGII, Diseño de niveles, Pruebas, Diseño Gráfico
+- Sergio Peiteado Sánchez, 1º GII, Programación, Sonido, Pruebas
 
 Modificar lo que sigue a voluntad para que queden unas instrucciones mínimas de cómo ejecutar el juego y de cómo es el *gameplay*.
 
