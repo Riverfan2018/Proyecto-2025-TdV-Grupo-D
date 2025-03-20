@@ -1,6 +1,6 @@
 # Nombre del juego
 
-## Equipo D "Great CofCup
+## Equipo D "Great CofCup"
 - Pablo García Hernández, 1° GIC, Jefatura de proyecto, Programación, Diseño gráfico
 - David Salgado, 1º GISI, Diseño de niveles, Pruebas, Programación.
 - Roberto Pais Bustamante, 1ºGIC, Programación, Diseño de niveles y Pruebas.
