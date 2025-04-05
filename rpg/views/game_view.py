@@ -11,8 +11,11 @@ import arcade.gui
 import rpg.constants as constants
 from arcade.experimental.lights import Light
 from pyglet.math import Vec2
+
+from rpg.constants import INMO_DELAY
 from rpg.message_box import MessageBox
 from rpg.sprites.player_sprite import PlayerSprite
+from rpg.views.main_menu_view import MainMenuView
 
 
 class DebugMenu(arcade.gui.UIBorder, arcade.gui.UIWindowLikeMixin):
@@ -142,6 +145,17 @@ class GameView(arcade.View):
         self.player_sprite = None
         self.player_sprite_list = None
 
+        #Vida
+        self.hp = constants.HPmax
+
+        #Para hacer inmortal al personaje unos segundos
+        self.inmortal = False
+        self.timer = 0
+        self.inmo_delay = INMO_DELAY
+
+        #Lista de proyectiles y peligros
+        self.proyectile_sprite_list = arcade.SpriteList()
+
         # Track the current state of what key is pressed
         self.left_pressed = False
         self.right_pressed = False
@@ -225,6 +239,14 @@ class GameView(arcade.View):
             self.physics_engine = arcade.PhysicsEngineSimple(
                 self.player_sprite, self.my_map.scene["wall_list"]
             )
+    #Esta funcion es temporal, está solo para que aparezca la bala que quita vida
+    def bala(self):
+        bala = arcade.Sprite(r"C:\Users\Sergio\Desktop\bala.png",
+                             0.2)
+        bala.center_x = 150
+        bala.center_y = 420
+        self.proyectile_sprite_list.append(bala)
+
 
     def setup(self):
         """Set up the game variables. Call to re-start the game."""
@@ -240,6 +262,12 @@ class GameView(arcade.View):
 
         # Set up the hotbar
         self.load_hotbar_sprites()
+
+        #Reinicia la vida
+        self.hp = constants.HPmax
+
+        #Ejecuta la funcion de la bala
+        self.bala()
 
     def load_hotbar_sprites(self):
         """Load the sprites for the hotbar at the bottom of the screen.
@@ -325,6 +353,15 @@ class GameView(arcade.View):
             text = f"     {item_name}"
             arcade.draw_text(text, x, y, arcade.color.ALLOY_ORANGE, 16)
 
+    # Dibuja la interfaz
+    def draw_interface(self):
+        #Dibuja la vida
+        for h in range (30, 30 + self.hp*50, 50):
+            arcade.draw_circle_filled(h, 690, 20, arcade.csscolor.RED)
+
+
+
+
     def on_draw(self):
         """
         Render the screen.
@@ -362,6 +399,9 @@ class GameView(arcade.View):
             # Draw the player
             self.player_sprite_list.draw()
 
+
+            self.proyectile_sprite_list.draw()
+
         if cur_map.light_layer:
             # Draw the light layer to the screen.
             # This fills the entire screen with the lit version
@@ -378,6 +418,9 @@ class GameView(arcade.View):
 
         # Draw the inventory
         self.draw_inventory()
+
+        #Dibuja la vida en pantalla
+        self.draw_interface()
 
         # Draw any message boxes
         if self.message_box:
@@ -400,6 +443,28 @@ class GameView(arcade.View):
         my_map = self.map_list[self.cur_map_name]
         if my_map.background_color:
             arcade.set_background_color(my_map.background_color)
+
+    # Sistema de perder vida con proyectiles
+    def proyectiles(self):
+        for proyectile in self.proyectile_sprite_list:
+
+            # Si el jugador no es inmortal comprueba si un proyectil ha golpeado al jugador
+            if self.inmortal == False:
+                hit_list = arcade.check_for_collision_with_list(proyectile, self.player_sprite_list)
+            else:
+                hit_list = []
+
+            # Si golpeó desaparece el proyectil y el jugador se hace temporalmente inmortal
+            if len(hit_list) > 0:
+                proyectile.remove_from_sprite_lists()
+                self.hp -= 1
+                self.inmortal = True
+
+
+
+
+
+
 
     def on_update(self, delta_time):
         """
@@ -538,6 +603,23 @@ class GameView(arcade.View):
         else:
             # No doors, scroll normally
             self.scroll_to_player()
+
+        #Ejecuta que los proyectiles funcionen
+        self.proyectiles()
+        #Te hace inmortal unos segundos tras recibir daño
+        if self.inmortal:
+            self.timer += delta_time
+            if self.timer >= self.inmo_delay:
+                self.inmortal = False
+                self.timer = 0
+
+        #Si la vida llega a 0 mueres
+        if self.hp <= 0:
+            print("Moriste")
+            self.window.views["game"].setup()
+            self.window.show_view(self.window.views["game"])
+
+
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
