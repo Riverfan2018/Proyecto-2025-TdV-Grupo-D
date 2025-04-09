@@ -153,8 +153,8 @@ class GameView(arcade.View):
         self.timer = 0
         self.inmo_delay = INMO_DELAY
 
-        #Lista de proyectiles y peligros
-        self.proyectile_sprite_list = arcade.SpriteList()
+        #Lista de peligros
+        self.peligro_sprite_list = arcade.SpriteList()
 
         # Track the current state of what key is pressed
         self.left_pressed = False
@@ -245,7 +245,7 @@ class GameView(arcade.View):
                              0.2)
         bala.center_x = 150
         bala.center_y = 420
-        self.proyectile_sprite_list.append(bala)
+        self.peligro_sprite_list.append(bala)
 
 
     def setup(self):
@@ -361,7 +361,6 @@ class GameView(arcade.View):
 
 
 
-
     def on_draw(self):
         """
         Render the screen.
@@ -400,7 +399,7 @@ class GameView(arcade.View):
             self.player_sprite_list.draw()
 
 
-            self.proyectile_sprite_list.draw()
+            self.peligro_sprite_list.draw()
 
         if cur_map.light_layer:
             # Draw the light layer to the screen.
@@ -444,19 +443,19 @@ class GameView(arcade.View):
         if my_map.background_color:
             arcade.set_background_color(my_map.background_color)
 
-    # Sistema de perder vida con proyectiles
-    def proyectiles(self):
-        for proyectile in self.proyectile_sprite_list:
+    # Sistema de perder vida con peligros y proyectiles
+    def peligros(self):
+        for peligro in self.peligro_sprite_list:
 
             # Si el jugador no es inmortal comprueba si un proyectil ha golpeado al jugador
             if self.inmortal == False:
-                hit_list = arcade.check_for_collision_with_list(proyectile, self.player_sprite_list)
+                hit_list = arcade.check_for_collision_with_list(peligro, self.player_sprite_list)
             else:
                 hit_list = []
 
-            # Si golpeó desaparece el proyectil y el jugador se hace temporalmente inmortal
+            # Si golpeó: desaparece el proyectil, el jugador pierde una vida y se hace temporalmente inmortal
             if len(hit_list) > 0:
-                proyectile.remove_from_sprite_lists()
+                peligro.remove_from_sprite_lists()
                 self.hp -= 1
                 self.inmortal = True
 
@@ -604,8 +603,8 @@ class GameView(arcade.View):
             # No doors, scroll normally
             self.scroll_to_player()
 
-        #Ejecuta que los proyectiles funcionen
-        self.proyectiles()
+        #Ejecuta que los peligros funcionen
+        self.peligros()
         #Te hace inmortal unos segundos tras recibir daño
         if self.inmortal:
             self.timer += delta_time
