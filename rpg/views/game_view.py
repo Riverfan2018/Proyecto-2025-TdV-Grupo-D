@@ -261,14 +261,6 @@ class GameView(arcade.View):
         #Establece la vida
         self.hp = constants.HPmax
 
-        bala = Proyectil(r"C:\Users\Sergio\Desktop\bala.png",0.2,150,420,self.player_sprite_list)
-        self.peligro_sprite_list.append(bala)
-
-        bala = Proyectil(r"C:\Users\Sergio\Desktop\bala.png", 0.2, 170, 400, self.player_sprite_list)
-        self.peligro_sprite_list.append(bala)
-
-        bala = Peligro(r"C:\Users\Sergio\Desktop\bala.png", 0.2, 230, 400)
-        self.peligro_sprite_list.append(bala)
 
     def load_hotbar_sprites(self):
         """Load the sprites for the hotbar at the bottom of the screen.
