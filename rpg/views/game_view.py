@@ -258,17 +258,17 @@ class GameView(arcade.View):
         # Set up the hotbar
         self.load_hotbar_sprites()
 
-        #Reinicia la vida
+        #Establece la vida
         self.hp = constants.HPmax
 
         bala = Proyectil(r"C:\Users\Sergio\Desktop\bala.png",0.2,150,420,self.player_sprite_list)
         self.peligro_sprite_list.append(bala)
 
-        bala2 = Proyectil(r"C:\Users\Sergio\Desktop\bala.png", 0.2, 170, 400, self.player_sprite_list)
-        self.peligro_sprite_list.append(bala2)
+        bala = Proyectil(r"C:\Users\Sergio\Desktop\bala.png", 0.2, 170, 400, self.player_sprite_list)
+        self.peligro_sprite_list.append(bala)
 
-        bala2 = Peligro(r"C:\Users\Sergio\Desktop\bala.png", 0.2, 230, 400)
-        self.peligro_sprite_list.append(bala2)
+        bala = Peligro(r"C:\Users\Sergio\Desktop\bala.png", 0.2, 230, 400)
+        self.peligro_sprite_list.append(bala)
 
     def load_hotbar_sprites(self):
         """Load the sprites for the hotbar at the bottom of the screen.
@@ -358,8 +358,11 @@ class GameView(arcade.View):
     # Dibuja la interfaz
     def draw_interface(self):
         #Dibuja la vida
-        for h in range (30, 30 + self.hp*50, 50):
-            arcade.draw_circle_filled(h, 690, 20, arcade.csscolor.RED)
+        for x in range (30, 30 + self.hp*50, 50):
+            corazon = arcade.Sprite(r"..\resources\misc\Vida.png",0.35)
+            corazon.center_x = x
+            corazon.center_y = 690
+            corazon.draw()
 
 
 
