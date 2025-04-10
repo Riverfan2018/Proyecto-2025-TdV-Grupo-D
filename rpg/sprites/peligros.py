@@ -18,7 +18,7 @@ class Proyectil(Peligro):
         self.objetivo = objetivo
 
     def update(self):
-        if self.impactado:
+        if self.impactado:              #Si choca con el jugador el proyectil desaparece
             self.remove_from_sprite_lists()
 
         if arcade.check_for_collision_with_list(self, self.objetivo):
