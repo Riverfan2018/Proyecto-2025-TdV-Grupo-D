@@ -2,7 +2,7 @@ import arcade
 
 
 
-class Peligro(arcade.Sprite):
+class Peligro(arcade.Sprite):     #Los peligros son sprites que te dañan al tocarlos
 
     def __init__(self, image_path, scale, center_x, center_y):
         super().__init__(image_path, scale)
@@ -10,7 +10,7 @@ class Peligro(arcade.Sprite):
         self.center_y = center_y
 
 
-class Proyectil(Peligro):
+class Proyectil(Peligro):      #Los proyectiles son peligros que desaparecen tras hacer daño
     objetivo = None
     impactado = False
     def __init__(self, image_path, scale, center_x, center_y, objetivo):
