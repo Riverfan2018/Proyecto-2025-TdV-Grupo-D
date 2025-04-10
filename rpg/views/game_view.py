@@ -449,7 +449,7 @@ class GameView(arcade.View):
             else:
                 hit_list = []
 
-            # Si golpeó: desaparece el proyectil, el jugador pierde una vida y se hace temporalmente inmortal
+            # Si golpeó: el jugador pierde una vida y se hace temporalmente inmortal
             if len(hit_list) > 0:
                 self.hp -= 1
                 self.inmortal = True
